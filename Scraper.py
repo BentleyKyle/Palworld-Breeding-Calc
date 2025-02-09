@@ -11,24 +11,15 @@ driver = webdriver.Firefox()
 driver.implicitly_wait(1)
 driver.get(url)
 
-#click button
-#Nyafia = driver.find_element(By.CLASS_NAME, "pal")
-#Nyafia.click()
-#find a parent from the list
-#NyafiaFirstParent =  driver.find_element(By.CLASS_NAME, "name")
-#bob = NyafiaFirstParent.get_attribute('innerHTML')
-#print(bob)
-#clear the page and return to original list of pals
-#clearBttnEl = driver.find_element(By.CLASS_NAME, "clear-btn")
-#clearBttnEl.click()
-
 #list of all initial pals
 pals = driver.find_elements(By.CLASS_NAME, "name")
 x = 0
 while (x < len(pals)):
     name = pals[x].get_attribute('innerHTML')
+    #DOM contains a blank entry that must be skipped
     if name != "":
-        print("Breeding Combos for: ", name)
+        print("Breeding Combos for:", name)
+        #click pal entry to load page with breeding combos for that pal
         pals[x].click()
         Breeders = driver.find_elements(By.CLASS_NAME, "name")
         i = 0
@@ -42,8 +33,10 @@ while (x < len(pals)):
             Child = Breeders[i].get_attribute('innerHTML')
             print("     Child:", Child)
             i += 1
+        #return to list of all pals
         clearBttnEl = driver.find_element(By.CLASS_NAME, "clear-btn")
         clearBttnEl.click()
+        #next element in list of all pals and reload DOM
         x += 1
         pals = driver.find_elements(By.CLASS_NAME, "name")
     elif name == "":
